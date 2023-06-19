@@ -5,7 +5,7 @@ const userPattern = [];
 let count = 0;
 $("#level-title");
 $(document).keypress(() => {
-    updateTitle();
+    updateTitle("level " + level);
     generatePattern(); 
 })
 
@@ -33,7 +33,10 @@ function playSound(buttonClicked){
         case "blue":
             sound(buttonClicked)
             break;
-        default:
+        case "wrong":
+            sound(buttonClicked)
+            break;
+        default: 
             break; 
     }
 }
@@ -49,7 +52,10 @@ function generatePattern(){
 function checkPattern(){
     console.log(count);
     if (userPattern[count] !== computerGeneratedPattern[count]){
-        alert("Not Equal");
+        gameOver();
+        userPattern.splice(0, userPattern.length);
+        computerGeneratedPattern.splice(0, computerGeneratedPattern.length);
+        level = 1;
     }
     else if(userPattern[count] === computerGeneratedPattern[count] && userPattern.length !== computerGeneratedPattern.length){
         count += 1;
@@ -57,6 +63,7 @@ function checkPattern(){
     else if(userPattern[count] === computerGeneratedPattern[count] && userPattern.length === computerGeneratedPattern.length){
         userPattern.splice(0, userPattern.length);
         level += 1;
+        updateTitle("level " + level);
         count = 0;
         console.log("in 3");
         setTimeout(() => {generatePattern()}, 1000);
@@ -77,6 +84,15 @@ function sound(buttonClicked){
     sound.play();
 }
 
-function updateTitle(){
-    $("#level-title").text("level " + level);;
+function updateTitle(updatedTitle){
+    $("#level-title").text(updatedTitle);
+}
+
+function gameOver(){
+    updateTitle("Game Over, Press any Key to Restart")
+    playSound("wrong")
+    $("body").addClass("game-over");
+    setTimeout(() => {
+        $("body").removeClass("game-over");
+    },100);
 }
