@@ -17,9 +17,9 @@ $(".btn").click((event) => {
     checkPattern();
 })
 
+//play sound function to play the sound based on the button clicked
 function playSound(buttonClicked){
     userPattern.push(buttonClicked);
-    console.log(userPattern);
     switch (buttonClicked) {
         case "green":
             sound(buttonClicked)
@@ -41,16 +41,18 @@ function playSound(buttonClicked){
     }
 }
 
+//this function generates a random pattern for the computer and stores it in the 
+//computerGeneratedArray
 function generatePattern(){
     const randomIndex = Math.round(Math.random() * 3)
     computerGeneratedPattern.push(buttonColors[randomIndex]);
-    console.log(computerGeneratedPattern);
     animateButton(buttonColors[randomIndex]);
     sound(buttonColors[randomIndex])
 }
 
+//This function checks the gnereated pattern to that of the user pattern stored in the
+//user pattern array
 function checkPattern(){
-    console.log(count);
     if (userPattern[count] !== computerGeneratedPattern[count]){
         gameOver();
         userPattern.splice(0, userPattern.length);
@@ -65,12 +67,11 @@ function checkPattern(){
         level += 1;
         updateTitle("level " + level);
         count = 0;
-        console.log("in 3");
         setTimeout(() => {generatePattern()}, 1000);
     }
 }
 
-
+//function to provide animation to the buttons
 function animateButton(id){
     $("#" + id).addClass("pressed");
     setTimeout(() => {
@@ -78,16 +79,18 @@ function animateButton(id){
     }, 100);
 }
 
-
+//function to play sound
 function sound(buttonClicked){
     let sound = new Audio("./sounds/" + buttonClicked + ".mp3");
     sound.play();
 }
 
+//function to update title with the text provided
 function updateTitle(updatedTitle){
     $("#level-title").text(updatedTitle);
 }
 
+//function to provide funtionalities then the user looses
 function gameOver(){
     updateTitle("Game Over, Press any Key to Restart")
     playSound("wrong")
