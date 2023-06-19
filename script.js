@@ -1,52 +1,79 @@
 let level = 1;
 const buttonColors = ["green", "red", "yellow", "blue"];
-let computerGeneratedPattern = "";
+const computerGeneratedPattern = [];
+const userPattern = [];
+let count = 0;
 //handling the title change
 let title = $("#level-title");
-$("*").keypress(() => {
+$(document).keypress(() => {
     title.text("level " + level);
+    generatePattern(); 
 })
 
 //assiging the listeners to the buttons.
 $(".btn").click((event) => {
-    animateButton(event)
     let buttonClicked = $(event.target).attr('id');
+    animateButton(buttonClicked);
     playSound(buttonClicked);
+    checkPattern();
 })
 
 function playSound(buttonClicked){
-    let sound = new Audio("./sounds/" + buttonClicked + ".mp3");
+    userPattern.push(buttonClicked);
+    console.log(userPattern);
     switch (buttonClicked) {
         case "green":
-            sound.play()
+            sound(buttonClicked)
             break;
         case "red":
-            sound.play()
+            sound(buttonClicked)
             break;
         case "yellow":
-            sound.play()
+            sound(buttonClicked)
             break;
         case "blue":
-            sound.play()
+            sound(buttonClicked)
             break;
         default:
-            break;
+            break; 
     }
 }
 
 function generatePattern(){
     const randomIndex = Math.round(Math.random() * 3)
-    computerGeneratedPattern += buttonColors[randomIndex];
+    computerGeneratedPattern.push(buttonColors[randomIndex]);
+    console.log(computerGeneratedPattern);
+    animateButton(buttonColors[randomIndex]);
+    sound(buttonColors[randomIndex])
 }
 
-// function checkPattern(){
-//     reuturn ge
-// }
+function checkPattern(){
+    console.log(count);
+    if (userPattern[count] !== computerGeneratedPattern[count]){
+        alert("Not Equal");
+    }
+    else if(userPattern[count] === computerGeneratedPattern[count] && userPattern.length !== computerGeneratedPattern.length){
+        count += 1;
+    }
+    else if(userPattern[count] === computerGeneratedPattern[count] && userPattern.length === computerGeneratedPattern.length){
+        userPattern.splice(0, userPattern.length);
+        level += 1;
+        count = 0;
+        console.log("in 3");
+        setTimeout(() => {generatePattern()}, 1000);
+    }
+}
 
 
-function animateButton(event){
-    $(event.target).addClass("pressed");
+function animateButton(id){
+    $("#" + id).addClass("pressed");
     setTimeout(() => {
-        $(event.target).removeClass("pressed");
+        $("#" + id).removeClass("pressed");
     }, 100);
+}
+
+
+function sound(buttonClicked){
+    let sound = new Audio("./sounds/" + buttonClicked + ".mp3");
+    sound.play();
 }
