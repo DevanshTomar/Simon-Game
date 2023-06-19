@@ -3,10 +3,9 @@ const buttonColors = ["green", "red", "yellow", "blue"];
 const computerGeneratedPattern = [];
 const userPattern = [];
 let count = 0;
-//handling the title change
-let title = $("#level-title");
+$("#level-title");
 $(document).keypress(() => {
-    title.text("level " + level);
+    updateTitle();
     generatePattern(); 
 })
 
@@ -76,4 +75,8 @@ function animateButton(id){
 function sound(buttonClicked){
     let sound = new Audio("./sounds/" + buttonClicked + ".mp3");
     sound.play();
+}
+
+function updateTitle(){
+    $("#level-title").text("level " + level);;
 }
