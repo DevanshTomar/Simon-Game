@@ -6,26 +6,28 @@ $("*").keypress(() => {
 })
 
 //assiging the listeners to the buttons.
-//green
-$("#green").click(()=>{
-    let sound = new Audio("./sounds/green.mp3");
-    sound.play();
+$(".btn").click((event) => {
+    let buttonClicked = $(event.target).attr('id');
+    playSound(buttonClicked);
 })
 
-//red 
-$("#red").click(()=>{
-    let sound = new Audio("./sounds/red.mp3");
-    sound.play();
-})
+function playSound(buttonClicked){
+    let sound = new Audio("./sounds/" + buttonClicked + ".mp3");
+    switch (buttonClicked) {
+        case "green":
+            sound.play()
+            break;
+        case "red":
+            sound.play()
+            break;
+        case "yellow":
+            sound.play()
+            break;
+        case "blue":
+            sound.play()
+            break;
+        default:
+            break;
+    }
+}
 
-//yellow
-$("#yellow").click(()=>{
-    let sound = new Audio("./sounds/yellow.mp3");
-    sound.play();
-})
-
-//blue
-$("#blue").click(()=>{
-    let sound = new Audio("./sounds/blue.mp3");
-    sound.play();
-})
